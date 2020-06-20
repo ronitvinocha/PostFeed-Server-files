@@ -11,9 +11,33 @@ router.post('/posts', function(req, res, next) {
 });
 
 router.post('/users', function(req, res, next) {
-	res.locals.connection.query('SELECT * from User', function (error, results, fields) {
-		if (error) throw error;
-		res.send(JSON.stringify({"response": results}));
+	console.log(req.body);
+	var sql='SELECT * from User where name=? AND password=?';
+	res.locals.connection.query(sql,[req.body.name,req.body.password], function (error, results, fields) {
+		if (error)
+		{
+			console.log(error)
+		}
+		else if(results.length>0)
+		{
+			res.send(JSON.stringify({"response": "success"}));
+		}
+		else 
+		{
+			console.log(req.body);
+			var sql='INSERT INTO User(name,password)values(?,?)'
+					res.locals.connection.query(sql,[req.body.name,req.body.password],function (error, results, fields) {
+					if (error)
+					{
+						res.send(JSON.stringify({"response": error}));
+					}
+					else
+					{
+						res.send(JSON.stringify({"response": "success"}));
+					}
+					
+				});
+		}
 	});
 });
 router.post('/addpost', function(request, res, next) {
@@ -34,23 +58,6 @@ router.post('/addpost', function(request, res, next) {
     }
 	
 });
-router.post('/adduser', function(request, res, next) {
-	if (request.method == 'POST') {
-		console.log(request.body);
-		var sql='INSERT INTO User(name,password)values(?,?)'
-        res.locals.connection.query(sql,[request.body.name,request.body.password],function (error, results, fields) {
-		if (error)
-		{
-			res.send(JSON.stringify({"response": error}));
-		}
-		else
-		{
-			res.send(JSON.stringify({"response": "success"}));
-		}
-		
-	});
-    }
-	
-});
+
 
 module.exports = router;

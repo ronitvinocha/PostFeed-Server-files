@@ -24,7 +24,7 @@ app.use(function(req, res, next){
     user     : 'admin',
     port      :3306,
 		password : 'nikolatesla123',
-		database : 'onicarestest'
+    database : 'onicarestest'
 	});
 	res.locals.connection.connect();
 	next();
