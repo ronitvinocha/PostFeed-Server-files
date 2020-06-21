@@ -22,7 +22,8 @@ router.post('/users', function(req, res, next) {
 		}
 		else if(results.length>0)
 		{
-			res.send(JSON.stringify({"response": "success","userid":+response.id}));
+			console.log(fields);
+			res.send(JSON.stringify({"response": results}));
 		}
 		else 
 		{
@@ -35,7 +36,7 @@ router.post('/users', function(req, res, next) {
 					}
 					else
 					{
-						res.send(JSON.stringify({"response": "success"}));
+						res.send(JSON.stringify({"response":"success"}));
 					}
 					
 				});
