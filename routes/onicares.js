@@ -4,7 +4,7 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/posts', function(req, res, next) {
-	res.locals.connection.query('SELECT * from Posts', function (error, results, fields) {
+	res.locals.connection.query('select User.name,Posts.id,Posts.contentText,Posts.contentimageurl from User Inner JOIN Posts on User.id=Posts.userid; ', function (error, results, fields) {
 		if (error) throw error;
 		res.send(JSON.stringify({"response": results}));
 	});
@@ -16,7 +16,8 @@ router.post('/users', function(req, res, next) {
 	res.locals.connection.query(sql,[req.body.name,req.body.password], function (error, results, fields) {
 		if (error)
 		{
-			console.log(error)
+			console.log(error);
+			res.send(JSON.stringify({"response": error}));
 		}
 		else if(results.length>0)
 		{
