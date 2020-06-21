@@ -1,5 +1,6 @@
 var express = require('express');
 var qs = require('querystring');
+const { response } = require('express');
 var router = express.Router();
 
 /* GET users listing. */
@@ -21,7 +22,7 @@ router.post('/users', function(req, res, next) {
 		}
 		else if(results.length>0)
 		{
-			res.send(JSON.stringify({"response": "success"}));
+			res.send(JSON.stringify({"response": "success","userid":+response.id}));
 		}
 		else 
 		{
