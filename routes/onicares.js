@@ -5,9 +5,16 @@ var router = express.Router();
 
 /* GET users listing. */
 router.post('/posts', function(req, res, next) {
-	res.locals.connection.query('select User.name,Posts.id,Posts.contentText,Posts.contentimageurl from User Inner JOIN Posts on User.id=Posts.userid; ', function (error, results, fields) {
-		if (error) throw error;
-		res.send(JSON.stringify({"response": results}));
+	res.locals.connection.query('select User.name,Posts.id,Posts.contentText,Posts.contentimageurl from User Inner JOIN Posts on User.id=Posts.userid ORDER BY Posts.id ; ', function (error, results, fields) {
+		if (error)
+		{
+			console.log(error)
+			res.send(JSON.stringify({"response": error}));
+		}
+		else
+		{
+			res.send(JSON.stringify({"response": results}));
+		}
 	});
 });
 
